@@ -147,12 +147,11 @@ def show_exam_result(request, course_id, submission_id):
     course = get_object_or_404(Course, pk=course_id)
     submission = get_object_or_404(Submission, pk=submission_id)
     choices = Submission.chocies
-    score = 10
-    #for x in choices:
-     #   choice = get_object_or_404(Choice,pk=x)
-     #   total = total +1
-      #  if choice.isCorrect:
-       #     score = score + 1        
+    for x in choices:
+        choice = get_object_or_404(Choice,pk=x)
+        total = total +1
+        if choice.isCorrect:
+            score = score + 1        
     context['score'] = score
     return render(request, 'onlinecourse/course_detail_bootstrap.html', context)
 
