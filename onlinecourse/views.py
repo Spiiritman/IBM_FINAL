@@ -122,7 +122,8 @@ def submit(request, course_id):
         choice = get_object_or_404(Choice, pk=x)
         submission.chocies.add(choice)
         submission.save()
-    return redirect('show_exam_result', request=request, course_id=course_id, submission_id=submission.id)
+    # return redirect('show_exam_result', request=request, course_id=course_id, submission_id=submission.id)
+    return HttpResponseRedirect(reverse(viewname='onlinecourse:show_exam_result', args=(course_id, submission.id))) 
 
 def extract_answers(request):
     submitted_anwsers = []
@@ -142,14 +143,16 @@ def extract_answers(request):
         # Calculate the total score
 
 def show_exam_result(request, course_id, submission_id):
+    context = {}
     course = get_object_or_404(Course, pk=course_id)
     submission = get_object_or_404(Submission, pk=submission_id)
     choices = Submission.chocies
-    for x in choices:
-        choice = get_object_or_404(Choice,pk=x)
-        total = total +1
-        if choice.isCorrect:
-            score = score + 1        
+    score = 10
+    #for x in choices:
+     #   choice = get_object_or_404(Choice,pk=x)
+     #   total = total +1
+      #  if choice.isCorrect:
+       #     score = score + 1        
     context['score'] = score
     return render(request, 'onlinecourse/course_detail_bootstrap.html', context)
 
